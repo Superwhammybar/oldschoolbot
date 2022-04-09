@@ -1,7 +1,7 @@
 import { KlasaUser } from 'klasa';
 import { Bank, Monsters } from 'oldschooljs';
 
-import { diaries, DiaryTier, userhasDiaryTier } from '../../../lib/diaries';
+import { diaries, userhasDiaryTier } from '../../../lib/diaries';
 import { Minigames } from '../../../lib/settings/minigames';
 import { formatSkillRequirements, itemNameFromID, stringMatches, textEffect, toTitleCase } from '../../../lib/util';
 
@@ -12,10 +12,10 @@ const lampRewards = {
 	Elite: 'Antique lamp 4'
 } as const;
 
-async function howManyOfTierCompleted(user: KlasaUser, tiers: DiaryTier[]) {
+async function howManyOfTierCompleted(user: KlasaUser, tier: 'easy'| 'medium'|'hard'|'elite') {
 	let completed = 0;
-	for (const tier of tiers) {
-		const [has] = await userhasDiaryTier(user, tier);
+	for (const diary of diaries) {
+		const [has] = await userhasDiaryTier(user, diary[tier], diary);
 		if (has) completed++;
 	}
 	return completed;
@@ -33,7 +33,7 @@ export async function achievementDiaryCommand(user: KlasaUser, diaryName: string
 				[dir.easy, dir.medium, dir.hard, dir.elite].map(async tier => {
 					return {
 						name: tier.name,
-						has: (await userhasDiaryTier(user, tier))[0]
+						has: (await userhasDiaryTier(user, tier, dir))[0]
 					};
 				})
 			);
@@ -111,14 +111,14 @@ export async function claimAchievementDiaryCommand(user: KlasaUser, diaryName: s
 
 	for (const tier of ['easy', 'medium', 'hard', 'elite'] as const) {
 		const diaryTier = diary[tier];
-		const [canDo, reason] = await userhasDiaryTier(user, diaryTier);
+		const [canDo, reason] = await userhasDiaryTier(user, diaryTier, diary);
 		const name = `${toTitleCase(diaryTier.name)} ${diary.name} Diary`;
 
 		if (canDo) {
 			if (allItems.has(diaryTier.item.id)) continue;
 			const hasCompleted = await howManyOfTierCompleted(
 				user,
-				diaries.map(d => d[tier])
+				tier
 			);
 			const loot = new Bank();
 			if (cl.amount(lampRewards[diaryTier.name]) < hasCompleted) {

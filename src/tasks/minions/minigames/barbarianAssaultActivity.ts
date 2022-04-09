@@ -21,7 +21,7 @@ export default class extends Task {
 		basePoints += calcPercentOfNum(teamSkillPercent, 20);
 
 		let pts = basePoints + randInt(-3, 3);
-		const [hasDiary] = await userhasDiaryTier(klasaUser, KandarinDiary.hard);
+		const [hasDiary] = await userhasDiaryTier(klasaUser, KandarinDiary.hard, KandarinDiary);
 		if (hasDiary) {
 			pts *= 1.1;
 			resultStr += `${klasaUser.username} 10% extra pts for Kandarin Hard diary. `;

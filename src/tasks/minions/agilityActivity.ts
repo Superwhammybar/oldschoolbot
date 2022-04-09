@@ -45,7 +45,7 @@ export default class extends Task {
 			totalMarks = Math.ceil(totalMarks / 5);
 		}
 
-		const [hasArdyElite] = await userhasDiaryTier(user, ArdougneDiary.elite);
+		const [hasArdyElite] = await userhasDiaryTier(user, ArdougneDiary.elite, ArdougneDiary);
 		const diaryBonus = hasArdyElite && course.name === 'Ardougne Rooftop Course';
 		if (diaryBonus) {
 			totalMarks = Math.floor(increaseNumByPercent(totalMarks, 25));

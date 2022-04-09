@@ -46,7 +46,7 @@ export default class extends BotCommand {
 						npc,
 						5 * (Time.Hour / ((npc.customTickRate ?? 2) * 600)),
 						false,
-						(await userhasDiaryTier(msg.author, ArdougneDiary.hard))[0]
+						(await userhasDiaryTier(msg.author, ArdougneDiary.hard, ArdougneDiary))[0]
 					);
 					results.push([npc.name, round(xpReceived, 2) / 5, damageTaken / 5]);
 				}
@@ -119,7 +119,7 @@ export default class extends BotCommand {
 
 		const boosts = [];
 
-		const [hasArdyHard] = await userhasDiaryTier(msg.author, ArdougneDiary.hard);
+		const [hasArdyHard] = await userhasDiaryTier(msg.author, ArdougneDiary.hard, ArdougneDiary);
 		if (hasArdyHard) {
 			boosts.push('+10% chance of success from Ardougne Hard diary');
 		}

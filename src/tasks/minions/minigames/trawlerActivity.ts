@@ -23,7 +23,7 @@ export default class extends Task {
 		const loot = new Bank();
 
 		let totalXP = 0;
-		const [hasEliteArdy] = await userhasDiaryTier(user, ArdougneDiary.elite);
+		const [hasEliteArdy] = await userhasDiaryTier(user, ArdougneDiary.elite, ArdougneDiary);
 		for (let i = 0; i < quantity; i++) {
 			const { loot: _loot, xp } = fishingTrawlerLoot(fishingLevel, hasEliteArdy, loot.clone().add(allItemsOwned));
 			totalXP += xp;

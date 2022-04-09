@@ -16,7 +16,7 @@ export default class extends Task {
 		const collectable = collectables.find(c => c.item.id === collectableID)!;
 		let colQuantity = collectable.quantity;
 
-		const [hasMoryHard] = await userhasDiaryTier(user, MorytaniaDiary.hard);
+		const [hasMoryHard] = await userhasDiaryTier(user, MorytaniaDiary.hard, MorytaniaDiary);
 		const moryHardBoost = collectable.item.name === 'Mort myre fungus' && hasMoryHard;
 		if (moryHardBoost) {
 			colQuantity *= 2;

@@ -13,8 +13,8 @@ export const capeBuyables: Buyable[] = [
 		}),
 		gpCost: 1_000_000,
 		customReq: async user => {
-			for (const diary of diaries.map(d => d.elite)) {
-				const [has] = await userhasDiaryTier(user, diary);
+			for (const diary of diaries) {
+				const [has] = await userhasDiaryTier(user, diary.elite, diary);
 				if (!has) {
 					return [false, "You can't buy this because you haven't completed all the Elite diaries!"];
 				}

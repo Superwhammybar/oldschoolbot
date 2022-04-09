@@ -18,7 +18,7 @@ export default class extends Task {
 
 		const loot = new Bank();
 
-		const [hasElite] = await userhasDiaryTier(user, WesternProv.elite);
+		const [hasElite] = await userhasDiaryTier(user, WesternProv.elite, WesternProv);
 
 		for (let i = 0; i < quantity; i++) {
 			loot.add('Bones');

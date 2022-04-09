@@ -41,7 +41,7 @@ export default class extends Task {
 		const percentMadeItThrough = deathTime === null ? 100 : calcWhatPercent(deathTime, fakeDuration);
 
 		let tokkul = Math.ceil(calcPercentOfNum(calcWhatPercent(duration, fakeDuration), 16_440));
-		const [hasDiary] = await userhasDiaryTier(user, diariesObject.KaramjaDiary.elite);
+		const [hasDiary] = await userhasDiaryTier(user, diariesObject.KaramjaDiary.elite, diariesObject.KaramjaDiary);
 		if (hasDiary) tokkul *= 2;
 		const baseBank = new Bank().add('Tokkul', tokkul);
 

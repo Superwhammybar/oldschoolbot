@@ -34,7 +34,24 @@ interface Diary {
 	elite: DiaryTier;
 }
 
-export async function userhasDiaryTier(user: KlasaUser, tier: DiaryTier): Promise<[true] | [false, string]> {
+
+export async function userhasDiaryTier(user: KlasaUser, tier: DiaryTier, diary: Diary): Promise<[true] | [false, string]> {
+	let hasPrevDiary: Boolean, message: string|undefined;
+	switch (tier.name) {
+		case "Elite":
+			[hasPrevDiary, message] = await userhasDiaryTier(user, diary.hard, diary)
+			if (!hasPrevDiary) return [false, message!];
+			break;
+		case "Hard":
+			[hasPrevDiary, message] = await userhasDiaryTier(user, diary.medium, diary)
+			if (!hasPrevDiary) return [false, message!];
+			break;
+		case "Medium":
+			[hasPrevDiary, message] = await userhasDiaryTier(user, diary.easy, diary)
+			if (!hasPrevDiary) return [false, message!];
+			break;
+	}
+	
 	const [hasSkillReqs] = user.hasSkillReqs(tier.skillReqs);
 	let canDo = true;
 	const reasons: string[] = [];

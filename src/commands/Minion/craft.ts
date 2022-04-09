@@ -69,7 +69,7 @@ export default class extends BotCommand {
 
 		// Get the base time to craft the item then add on quarter of a second per item to account for banking/etc.
 		let timeToCraftSingleItem = craftable.tickRate * Time.Second * 0.6 + Time.Second / 4;
-		const [hasFallyHard] = await userhasDiaryTier(msg.author, FaladorDiary.hard);
+		const [hasFallyHard] = await userhasDiaryTier(msg.author, FaladorDiary.hard, FaladorDiary);
 		if (craftable.bankChest && (hasFallyHard || msg.author.skillLevel(SkillsEnum.Crafting) >= 99)) {
 			timeToCraftSingleItem /= 3.25;
 		}

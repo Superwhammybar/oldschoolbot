@@ -112,7 +112,7 @@ export async function trekCommand(
 		tripTime *= 1.15;
 	}
 
-	const [hasMoryHard] = await userhasDiaryTier(user, MorytaniaDiary.hard);
+	const [hasMoryHard] = await userhasDiaryTier(user, MorytaniaDiary.hard, MorytaniaDiary);
 
 	if (hasMoryHard) {
 		boosts.push('15% for Morytania hard diary');

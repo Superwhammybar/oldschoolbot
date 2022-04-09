@@ -94,7 +94,7 @@ export const tksCommand: OSBMahojiCommand = {
 	}>) => {
 		const user = await client.fetchUser(userID.toString());
 		if (user.minionIsBusy) return `${user.minionName} is currently busy and cannot go to the Tzhaar shops.`;
-		const [hasKaramjaDiary] = await userhasDiaryTier(user, KaramjaDiary.easy);
+		const [hasKaramjaDiary] = await userhasDiaryTier(user, KaramjaDiary.easy, KaramjaDiary);
 		const item = TokkulShopItems.find(i => stringMatches(i.name, options.buy?.name ?? options.sell?.name ?? ''));
 		if (!item) return "That's not a valid item.";
 		if (item.requireFireCape && user.getKC(TzTokJad.id) < 1) {

@@ -1,4 +1,4 @@
-import { calcWhatPercent, reduceNumByPercent, Time } from 'e';
+import { calcWhatPercent, increaseNumByPercent, reduceNumByPercent, Time } from 'e';
 import { Task } from 'klasa';
 import { Bank } from 'oldschooljs';
 
@@ -24,9 +24,15 @@ export default class extends Task {
 		let agilityXP = randomVariation((duration / Time.Minute) * 416, 1);
 		agilityXP = reduceNumByPercent(agilityXP, 100 - calcWhatPercent(currentLevel, 99));
 
-		// 10% bonus tickets for karamja med
+		// 10% bonus XP for Karamja medium
+		const [hasKaramjaMedium] = await userhasDiaryTier(user, KaramjaDiary.medium, KaramjaDiary);
+		if (hasKaramjaMedium) {
+			agilityXP = increaseNumByPercent(agilityXP, 10);
+		}
+
+		// 10% bonus tickets for karamja elite
 		let bonusTickets = 0;
-		const [hasKaramjaElite] = await userhasDiaryTier(user, KaramjaDiary.elite);
+		const [hasKaramjaElite] = await userhasDiaryTier(user, KaramjaDiary.elite, KaramjaDiary);
 		if (hasKaramjaElite) {
 			for (let i = 0; i < ticketsReceived; i++) {
 				if (roll(10)) bonusTickets++;
@@ -43,15 +49,16 @@ export default class extends Task {
 			duration
 		)}, you received ${Math.floor(
 			agilityXP
-		).toLocaleString()} Agility XP and ${ticketsReceived} Agility arena tickets.`;
+		).toLocaleString()} Agility XP and ${ticketsReceived} Agility arena tickets.${hasKaramjaMedium?" 10% more xp for Karamja Medium Diary":""}`;
 
 		if (nextLevel > currentLevel) {
 			str += `\n\n${user.minionName}'s Agility level is now ${nextLevel}!`;
 		}
 
 		if (bonusTickets > 0) {
-			str += `\nYou received ${bonusTickets} bonus tickets for the Karamja Medium Diary.`;
+			str += `\nYou received ${bonusTickets} bonus tickets for the Karamja Elite Diary.`;
 		}
+
 
 		let xpFromTickets = determineXPFromTickets(ticketsReceived, user, hasKaramjaElite);
 		const xpFromTrip = xpFromTickets + agilityXP;

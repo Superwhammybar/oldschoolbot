@@ -324,7 +324,7 @@ export default class extends BotCommand {
 		}
 
 		for (const [diary, tier] of [[ArdougneDiary, ArdougneDiary.elite]] as const) {
-			const [has] = await userhasDiaryTier(msg.author, tier);
+			const [has] = await userhasDiaryTier(msg.author, tier, ArdougneDiary);
 			if (has) {
 				boostStr.push(`4% for ${diary.name} ${tier.name}`);
 				duration *= 0.96;

@@ -97,7 +97,7 @@ export default class extends BotCommand {
 
 		const boosts = [];
 
-		const [hasKaramjaElite] = await userhasDiaryTier(msg.author, KaramjaDiary.elite);
+		const [hasKaramjaElite] = await userhasDiaryTier(msg.author, KaramjaDiary.elite, KaramjaDiary);
 		if (hasKaramjaElite) {
 			boosts.push('10% extra tickets for Karamja Elite diary');
 		}
@@ -174,7 +174,7 @@ Alternatively, you can convert tickets to XP (+10% XP for Karamja Medium Diary) 
 			if (amountTicketsHas < qty) {
 				return msg.channel.send("You don't have enough Agility arena tickets.");
 			}
-			const [hasKaramjaMed] = await userhasDiaryTier(msg.author, KaramjaDiary.medium);
+			const [hasKaramjaMed] = await userhasDiaryTier(msg.author, KaramjaDiary.medium, KaramjaDiary);
 			const xpToGive = determineXPFromTickets(qty, msg.author, hasKaramjaMed);
 			let str = `Redeemed ${qty}x Agility arena tickets for ${xpToGive.toLocaleString()} Agility XP. (${(
 				xpToGive / qty

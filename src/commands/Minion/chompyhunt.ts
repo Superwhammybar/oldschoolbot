@@ -107,7 +107,7 @@ export default class extends BotCommand {
 		let boosts = [];
 		let quantity = Math.floor((baseChompyPerHour / Time.Hour) * tripLength);
 		for (const [diary, boost] of diaryBoosts) {
-			const [hasDiary] = await userhasDiaryTier(msg.author, diary);
+			const [hasDiary] = await userhasDiaryTier(msg.author, diary, WesternProv);
 			if (hasDiary) {
 				let bonus = 0;
 				for (let i = 0; i < quantity; i++) {

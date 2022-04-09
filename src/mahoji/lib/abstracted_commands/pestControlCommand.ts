@@ -130,7 +130,7 @@ export async function pestControlBuyCommand(klasaUser: KlasaUser, user: User, in
 	}
 
 	if (buyable.inputItem) {
-		const [hasDiary] = await userhasDiaryTier(klasaUser, WesternProv.hard);
+		const [hasDiary] = await userhasDiaryTier(klasaUser, WesternProv.hard, WesternProv);
 		if (!hasDiary) {
 			return "You can't buy this because you haven't completed the Western Provinces hard diary.";
 		}

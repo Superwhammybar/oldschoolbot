@@ -61,12 +61,12 @@ export async function darkAltarCommand({
 	let timePerRune = runeData.baseTime;
 
 	const boosts = [];
-	const [hasEliteDiary] = await userhasDiaryTier(user, KourendKebosDiary.elite);
+	const [hasEliteDiary] = await userhasDiaryTier(user, KourendKebosDiary.elite, KourendKebosDiary);
 	if (hasEliteDiary && rune === 'blood') {
 		boosts.push('10% additional runes for Kourend/Kebos elite diary');
 	}
 
-	const [hasMediumDiary] = await userhasDiaryTier(user, KourendKebosDiary.medium);
+	const [hasMediumDiary] = await userhasDiaryTier(user, KourendKebosDiary.medium, KourendKebosDiary);
 	if (hasMediumDiary) {
 		boosts.push(`${mediumDiaryBoost}% faster essence mining for Kourend/Kebos medium diary`);
 		timePerRune = reduceNumByPercent(timePerRune, mediumDiaryBoost);

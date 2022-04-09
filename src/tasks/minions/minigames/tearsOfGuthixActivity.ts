@@ -47,7 +47,7 @@ export default class extends Task {
 		let xpToGive = tears * scaledXPperTear;
 
 		// 10% boost for Lumbridge&Draynor Hard
-		const [hasDiary] = await userhasDiaryTier(user, LumbridgeDraynorDiary.hard);
+		const [hasDiary] = await userhasDiaryTier(user, LumbridgeDraynorDiary.hard, LumbridgeDraynorDiary);
 		if (hasDiary) xpToGive = increaseNumByPercent(xpToGive, 10);
 
 		const xpStr = await user.addXP({ skillName: lowestSkill, amount: xpToGive, duration });
