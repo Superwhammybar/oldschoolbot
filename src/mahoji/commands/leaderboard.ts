@@ -291,7 +291,13 @@ LIMIT 10;
 	return lbMsg('Unique Sacrifice');
 }
 
-async function minigamesLb(interaction: ChatInputCommandInteraction, user: MUser, channelID: string, name: string) {
+async function minigamesLb(
+	interaction: ChatInputCommandInteraction,
+	user: MUser,
+	channelID: string,
+	name: string,
+	ironmanOnly: boolean
+) {
 	const minigame = Minigames.find(m => stringMatches(m.name, name) || m.aliases.some(a => stringMatches(a, name)));
 	if (!minigame) {
 		return `That's not a valid minigame. Valid minigames are: ${Minigames.map(m => m.name).join(', ')}.`;
@@ -322,7 +328,15 @@ async function minigamesLb(interaction: ChatInputCommandInteraction, user: MUser
 		where: {
 			[minigame.column]: {
 				gt: minigame.column === 'champions_challenge' ? 1 : 10
-			}
+			},
+			...(ironmanOnly && {
+				user: {
+					minion_ironman: true
+				}
+			})
+		},
+		include: {
+			user: true
 		},
 		orderBy: {
 			[minigame.column]: 'desc'
@@ -331,7 +345,7 @@ async function minigamesLb(interaction: ChatInputCommandInteraction, user: MUser
 	});
 
 	return doMenuWrapper({
-		ironmanOnly: false,
+		ironmanOnly,
 		user,
 		interaction,
 		channelID,
@@ -1005,7 +1019,8 @@ export const leaderboardCommand: OSBMahojiCommand = {
 								: [i.name, ...i.aliases].some(str => str.toLowerCase().includes(value.toLowerCase()))
 						).map(i => ({ name: i.name, value: i.name }));
 					}
-				}
+				},
+				ironmanOnlyOption
 			]
 		},
 		{
@@ -1236,7 +1251,7 @@ export const leaderboardCommand: OSBMahojiCommand = {
 			return sacrificeLb(interaction, user, channelID, sacrifice.type, Boolean(sacrifice.ironmen_only));
 		}
 		if (minigames) {
-			return minigamesLb(interaction, user, channelID, minigames.minigame);
+			return minigamesLb(interaction, user, channelID, minigames.minigame, Boolean(minigames.ironmen_only));
 		}
 		if (hunter_catches) {
 			return creaturesLb(interaction, user, channelID, hunter_catches.creature);
